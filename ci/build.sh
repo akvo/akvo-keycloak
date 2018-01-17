@@ -8,8 +8,6 @@ if [ -z "$TRAVIS_COMMIT" ]; then
     export TRAVIS_COMMIT=local
 fi
 
-cd k8s/keycloak-ha-mysql
-
 TAG=$(echo -n "${TRAVIS_COMMIT}" | cut -c-8)
 export IMAGE_NAME="akvo/keycloak-ha-mysql:${TAG}"
 

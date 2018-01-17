@@ -21,15 +21,14 @@
   (-> docker-client
       .listContainersCmd
       (.withShowAll true)
-      (.withLabelFilter {"com.docker.compose.project" "keycloakhamysql"})
+      (.withLabelFilter {"com.docker.compose.project" "akvokeycloak"})
       .exec
       java/from-java))
 
 (defn keycloak-container-id []
   (->> (containers)
        (filter (fn [{labels :labels}]
-                 (and (= "keycloakhamysql" (get labels "com.docker.compose.project"))
-                      (= "keycloak1" (get labels "com.docker.compose.service")))))
+                 (= "keycloak1" (get labels "com.docker.compose.service"))))
        first
        :id))
 

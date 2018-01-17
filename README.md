@@ -13,15 +13,10 @@ specific changes
 
 ## Changes from base image
 
-* `JDBC_PING` as discovery protocol
+* `JDBC_PING` as discovery protocol with the same datasource `KeycloakDS`
 * Disables `ip_mcast` at JGroups level
-
-## Bulding Docker image
-
-NOTE: Make sure you have a `keycloak-VERSION-tar.gz` in this folder
-(produced by building from sources)
-
-    docker build -t akvo/keycloak-ha-mysql:VERSION .
+* Removes `udp` network stack at JGroups level
+* Enables `proxy-address-forwarding`
 
 ## Usage
 
@@ -42,32 +37,11 @@ First start a MySQL instance using the MySQL docker image:
 * Using the environment variables `MYSQL_USER`, `MYSQL_DATABASE` creates a user and a database locally.
   Make sure those are available when using the hosted MySQL.
 
-
 ### Environment variables
 
-#### Changes from base image
+#### KEYCLOAK_LOGLEVEL
 
-New enviroment variables are available to configure GOOGLE_PING discovery protocol
-
-* `GOOGLE_ACCESS_KEY`
-* `GOOGLE_ACCESS_KEY_SECRET`
-* `GOOGLE_LOCATION`
-
-See GOOGLE_PING documentation for more info
-
-* https://cloudplatform.googleblog.com/2016/02/JGroups-based-clustering-and-node-discovery-with-Google-Cloud-Storage.html
-* http://jgroups.org/manual/index.html#_google_ping
-
-When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to MySQL. For example:
-
-    docker run --name keycloak1 --link mysql:mysql \
-	       -e MYSQL_DATABASE=keycloak \
-		   -e MYSQL_USERNAME=keycloak \
-		   -e MYSQL_PASSWORD=password \
-		   -e GOOGLE_LOCATION=jgroups-bucket \
-		   -e GOOGLE_ACCESS_KEY=GXXXXX \
-		   -e GOOGLE_ACCESS_KEY_SECRET=YYYYYYY \
-		   akvo/keycloak-ha-mysql
+Specify the logging level for `org.keycloak` package
 
 #### MYSQL_DATABASE
 

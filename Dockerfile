@@ -7,7 +7,7 @@ ENV CFG_FILE ${KC_HOME}/standalone/configuration/standalone-ha.xml
 ENV WEB_XML ${KC_HOME}/modules/system/layers/keycloak/org/keycloak/keycloak-server-subsystem/main/server-war/WEB-INF/web.xml
 
 ADD docker-entrypoint.sh ${JB_HOME}
-ADD themes/akvo/ ${KC_HOME}/themes/akvo/
+ADD theme/akvo/ ${KC_HOME}/themes/akvo/
 ADD keycloak_configuration.txt ${KC_HOME}
 
 RUN ${KC_HOME}/bin/jboss-cli.sh --file=${KC_HOME}/keycloak_configuration.txt && \

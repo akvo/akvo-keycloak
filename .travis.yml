@@ -1,0 +1,15 @@
+language: java
+
+sudo: required
+
+services:
+  - docker
+
+script:
+  - ./ci/build.sh
+
+after_success:
+  - ./ci/deploy.sh
+
+after_failure:
+  - docker-compose -p keycloak-ha-mysql -f k8s/keycloak-ha-mysql/docker-compose.yml -f k8s/keycloak-ha-mysql/docker-compose.ci.yml logs

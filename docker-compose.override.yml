@@ -1,0 +1,16 @@
+version: "3"
+services:
+
+  db:
+   ports:
+     - 3306:3306
+
+  keycloak1:
+    build: .
+    ports:
+    - 8080:8080
+
+  tests:
+    ports:
+       # REPL
+       - "47480:47480"

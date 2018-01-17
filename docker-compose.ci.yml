@@ -1,0 +1,10 @@
+version: "3"
+services:
+
+  db:
+
+  keycloak1:
+    image: "${IMAGE_NAME}"
+
+  tests:
+    command: "true"

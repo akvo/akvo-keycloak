@@ -1,0 +1,79 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: keycloak
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: keycloak
+    spec:
+      containers:
+      - name: keycloak-ha-mysql
+        image: akvo/keycloak-ha-mysql:52ef8389
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "650m"
+            cpu: "50m"
+          limits:
+            memory: "1G"
+            cpu: "1000m"
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /auth/realms/master/.well-known/openid-configuration
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 10
+        livenessProbe:
+          httpGet:
+            path: /auth/realms/master/.well-known/openid-configuration
+            port: 8080
+          initialDelaySeconds: 70
+          timeoutSeconds: 1
+          periodSeconds: 10
+        env:
+        - name: JGROUPS_STACK
+          value: tcp
+        - name: MYSQL_PORT_3306_TCP_ADDR
+          value: "127.0.0.1"
+        - name: MYSQL_PORT_3306_TCP_PORT
+          value: "3306"
+        - name: MYSQL_DATABASE
+          value: "keycloak"
+        - name: MYSQL_USER
+          value: "keycloak"
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak
+              key: mysql_password
+      - name: cloudsql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.09
+        env:
+        - name: MYSQL_INSTANCE
+          valueFrom:
+            secretKeyRef:
+              name: keycloak
+              key: mysql_instance
+        command: ["/cloud_sql_proxy", "--dir=/cloudsql",
+                  "-instances=$(MYSQL_INSTANCE)",
+                  "-credential_file=/secrets/cloudsql/credentials.json"]
+        volumeMounts:
+          - name: cloudsql-instance-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
+          - name: cloudsql
+            mountPath: /cloudsql
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
+        - name: cloudsql
+          emptyDir:

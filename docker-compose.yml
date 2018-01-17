@@ -1,0 +1,36 @@
+version: "3"
+services:
+
+  db:
+   image: mysql:5.7.20
+   environment:
+     MYSQL_ROOT_PASSWORD: 1234
+     MYSQL_DATABASE: keycloakdb
+     MYSQL_USER: keycloak
+     MYSQL_PASSWORD: keycloakpassword
+   expose:
+     - 3306
+
+  keycloak1:
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      MYSQL_PASSWORD: keycloakpassword
+      MYSQL_USER: keycloakuser
+      MYSQL_DATABASE: keycloakdb
+      MYSQL_PORT_3306_TCP_PORT: "3306"
+      MYSQL_PORT_3306_TCP_ADDR: db
+    volumes:
+       - ./test/keycloak:/keycloak-init
+    expose:
+    - 8080
+
+  tests:
+    build:
+      context: ./test/tests
+      dockerfile: Dockerfile
+    volumes:
+       - ./test/tests:/tests
+       - ~/.m2:/root/.m2
+       - ~/.lein:/root/.lein
+       - /var/run/docker.sock:/var/run/docker.sock

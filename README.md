@@ -25,8 +25,8 @@ This will create an environment with:
 
 The Keycloak server will be configured with:
 
-* [Master domain](http://localhost:8080/). Credentials: admin/admin  
-* [Akvo domain](http://localhost:8080/auth/realms/akvo/account). 
+* [Master domain](http://localhost:8080/). Credentials: admin/password
+* [Akvo domain](http://localhost:8080/auth/realms/akvo/account). Credentials: jerome/password
 
 #### Test
 
@@ -56,3 +56,20 @@ Specify user for MySQL database (optional, default is `keycloak`).
 #### MYSQL_PASSWORD
 
 Specify password for MySQL database (optional, default is `keycloak`).
+
+## Export Keycloak configuration
+
+If you want to update the initial Keycloak configuration, you need to run:
+
+    docker-compose stop keycloak1
+    docker-compose run -d --name keycloak-export keycloak1 --server-config standalone-ha.xml -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/tmp/initial-import.json -Dkeycloak.migration.usersExportStrategy=REALM_FILE
+
+It takes around a minute before the export is done. Look at the logs:
+    
+    docker logs keycloak-export | grep "Export finished successfully"
+    
+After that:    
+    
+    docker cp keycloak-export:/tmp/initial-import.json test/keycloak/initial-import.json
+    docker stop keycloak-export
+    docker rm keycloak-export

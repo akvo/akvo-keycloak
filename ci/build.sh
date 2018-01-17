@@ -9,7 +9,7 @@ if [ -z "$TRAVIS_COMMIT" ]; then
 fi
 
 TAG=$(echo -n "${TRAVIS_COMMIT}" | cut -c-8)
-export IMAGE_NAME="akvo/keycloak-ha-mysql:1.${TRAVIS_BUILD_NUMBER}.${TAG}"
+export IMAGE_NAME="akvo/keycloak-ha-mysql:1.${TRAVIS_BUILD_NUMBER}.‚${TAG}"
 
 docker build -t "${DOCKER_IMAGE_NAME:=$IMAGE_NAME}" .
 

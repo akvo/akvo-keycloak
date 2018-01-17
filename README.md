@@ -8,8 +8,10 @@ specific changes
 
 ## Changes from base image
 
-* `JDBC_PING` as discovery protocol
+* `JDBC_PING` as discovery protocol with the same datasource `KeycloakDS`
 * Disables `ip_mcast` at JGroups level
+* Removes `udp` network stack at JGroups level
+* Enables `proxy-address-forwarding`
 
 ## Usage
 
@@ -36,7 +38,12 @@ Run the test from the REPL or with:
 
 * The MySQL version must match the available version in Google Cloud SQL: https://cloud.google.com/sql/faq#version
 
+
 ### Environment variables
+
+#### KEYCLOAK_LOGLEVEL
+
+Specify the logging level for `org.keycloak` package
 
 #### MYSQL_DATABASE
 

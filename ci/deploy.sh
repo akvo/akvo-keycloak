@@ -12,7 +12,7 @@ fi
 
 TAG=$(echo -n "${TRAVIS_COMMIT}" | cut -c-8)
 
-IMAGE_NAME="akvo/keycloak-ha-mysql:${TAG}"
+export IMAGE_NAME="akvo/keycloak-ha-mysql:1.${TRAVIS_BUILD_NUMBER}.${TAG}"
 
 # Pushing images
 docker login -u="${DOCKERHUB_USERNAME}" -p="${DOCKERHUB_PASSWORD}"

@@ -1,10 +1,5 @@
 # Keycloak HA MySQL on Google Cloud Platform
 
-
-## Building Keycloak from sources
-
-See: [How to build Keycloak](build.md)
-
 ## Base Dockerfile
 
 The base code is from [Keycloak docker image](https://github.com/jboss-dockerfiles/keycloak/tree/2.5.5.Final/server)
@@ -13,61 +8,42 @@ specific changes
 
 ## Changes from base image
 
-* `JDBC_PING` as discovery protocol
+* `JDBC_PING` as discovery protocol with the same datasource `KeycloakDS`
 * Disables `ip_mcast` at JGroups level
-
-## Bulding Docker image
-
-NOTE: Make sure you have a `keycloak-VERSION-tar.gz` in this folder
-(produced by building from sources)
-
-    docker build -t akvo/keycloak-ha-mysql:VERSION .
+* Removes `udp` network stack at JGroups level
+* Enables `proxy-address-forwarding`
 
 ## Usage
 
-### Start a MySQL instance (local setup)
+    docker-compose up
+    
+This will create an environment with:
 
-First start a MySQL instance using the MySQL docker image:
+* MySQL instance, listening on port 3306
+* Keycloak server, listening on port 8080
+* JVM to run test with a REPL listening on port 47480
 
-    docker run --name mysql \
-	       -e MYSQL_DATABASE=keycloak \
-		   -e MYSQL_USER=keycloak \
-		   -e MYSQL_PASSWORD=password \
-		   -e MYSQL_ROOT_PASSWORD=root_password \
-		   -d mysql:5.7
+The Keycloak server will be configured with:
+
+* [Master domain](http://localhost:8080/). Credentials: admin/password
+* [Akvo domain](http://localhost:8080/auth/realms/akvo/account). Credentials: jerome/password
+
+#### Test
+
+Run the test from the REPL or with:
+
+    docker-compose exec tests /tests/import-and-run.sh test
 
 #### Notes
 
 * The MySQL version must match the available version in Google Cloud SQL: https://cloud.google.com/sql/faq#version
-* Using the environment variables `MYSQL_USER`, `MYSQL_DATABASE` creates a user and a database locally.
-  Make sure those are available when using the hosted MySQL.
 
 
 ### Environment variables
 
-#### Changes from base image
+#### KEYCLOAK_LOGLEVEL
 
-New enviroment variables are available to configure GOOGLE_PING discovery protocol
-
-* `GOOGLE_ACCESS_KEY`
-* `GOOGLE_ACCESS_KEY_SECRET`
-* `GOOGLE_LOCATION`
-
-See GOOGLE_PING documentation for more info
-
-* https://cloudplatform.googleblog.com/2016/02/JGroups-based-clustering-and-node-discovery-with-Google-Cloud-Storage.html
-* http://jgroups.org/manual/index.html#_google_ping
-
-When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to MySQL. For example:
-
-    docker run --name keycloak1 --link mysql:mysql \
-	       -e MYSQL_DATABASE=keycloak \
-		   -e MYSQL_USERNAME=keycloak \
-		   -e MYSQL_PASSWORD=password \
-		   -e GOOGLE_LOCATION=jgroups-bucket \
-		   -e GOOGLE_ACCESS_KEY=GXXXXX \
-		   -e GOOGLE_ACCESS_KEY_SECRET=YYYYYYY \
-		   akvo/keycloak-ha-mysql
+Specify the logging level for `org.keycloak` package
 
 #### MYSQL_DATABASE
 
@@ -80,3 +56,20 @@ Specify user for MySQL database (optional, default is `keycloak`).
 #### MYSQL_PASSWORD
 
 Specify password for MySQL database (optional, default is `keycloak`).
+
+## Export Keycloak configuration
+
+If you want to update the initial Keycloak configuration, you need to run:
+
+    docker-compose stop keycloak1
+    docker-compose run -d --name keycloak-export keycloak1 --server-config standalone-ha.xml -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/tmp/initial-import.json -Dkeycloak.migration.usersExportStrategy=REALM_FILE
+
+It takes around a minute before the export is done. Look at the logs:
+    
+    docker logs keycloak-export | grep "Export finished successfully"
+    
+After that:    
+    
+    docker cp keycloak-export:/tmp/initial-import.json test/keycloak/initial-import.json
+    docker stop keycloak-export
+    docker rm keycloak-export

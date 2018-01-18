@@ -6,10 +6,7 @@ services:
   - docker
 
 script:
-  - ./ci/build.sh
-
-after_success:
-  - ./ci/deploy.sh
+  - ./ci/build.sh && ./ci/deploy.sh
 
 after_failure:
-  - docker-compose -f k8s/keycloak-ha-mysql/docker-compose.yml -f k8s/keycloak-ha-mysql/docker-compose.ci.yml logs
+  - docker-compose -f docker-compose.yml -f docker-compose.ci.yml logs

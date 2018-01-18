@@ -20,6 +20,7 @@ services:
       MYSQL_DATABASE: keycloakdb
       MYSQL_PORT_3306_TCP_PORT: "3306"
       MYSQL_PORT_3306_TCP_ADDR: db
+      WAIT_FOR_DB: "true"
     volumes:
        - ./test/keycloak:/keycloak-init
     expose:

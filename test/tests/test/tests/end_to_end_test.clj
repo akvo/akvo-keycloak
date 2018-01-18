@@ -60,26 +60,17 @@
       :body
       :access_token))
 
-(defn keycloak-works []
-  (util/try-for "Keycloak not working" 60
-                (access-token {:url      "http://keycloak1:8080/auth"
-                               :user     "akvo-flow"
-                               :password "3918fbb4-3bc3-445a-8445-76826603b227"})))
-
-(defn make-sure-keycloak-is-initialized []
-  (try
-    (start)
-    (catch NotModifiedException _))
-  (try
-    ;; it is possible than Keycloak starts before the DB, in which case JBoss starts but not Keycloak
-    ;; We give Keycloak some time and if it doesnt become available, we restart the process
-    (keycloak-works)
-    (catch Exception _
-      (restart)
-      (keycloak-works))))
+(defn keycloak-works
+  ([] (keycloak-works 60))
+  ([amount]
+   (util/try-for "Keycloak not working" amount
+                 (access-token {:url      "http://keycloak1:8080/auth"
+                                :user     "akvo-flow"
+                                :password "3918fbb4-3bc3-445a-8445-76826603b227"}))))
 
 (use-fixtures :once (fn [f]
-                      (make-sure-keycloak-is-initialized)
+                      ;; first time around the DB initialization can take a lot of time
+                      (keycloak-works 300)
                       (f)))
 
 (deftest starts-in-a-reasonble-amount-of-time

@@ -11,6 +11,8 @@ fi
 TAG=$(echo -n "${TRAVIS_COMMIT}" | cut -c-8)
 export IMAGE_NAME="akvo/keycloak-ha-mysql:1.${TRAVIS_BUILD_NUMBER}.${TAG}"
 
+echo "Image will be $IMAGE_NAME"
+
 docker build -t "${DOCKER_IMAGE_NAME:=$IMAGE_NAME}" .
 
 docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d --build

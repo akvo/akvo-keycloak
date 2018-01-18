@@ -15,8 +15,3 @@ docker build -t "${DOCKER_IMAGE_NAME:=$IMAGE_NAME}" .
 
 docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d --build
 docker-compose -f docker-compose.yml -f docker-compose.ci.yml run tests /tests/import-and-run.sh test
-
-rc=$?
-
-docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
-exit $rc

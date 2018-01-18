@@ -12,6 +12,7 @@ specific changes
 * Disables `ip_mcast` at JGroups level
 * Removes `udp` network stack at JGroups level
 * Enables `proxy-address-forwarding`
+* Added Akvo theme
 
 ## Usage
 
@@ -33,6 +34,11 @@ The Keycloak server will be configured with:
 Run the test from the REPL or with:
 
     docker-compose exec tests /tests/import-and-run.sh test
+
+#### Themes
+
+There is a custom theme in the theme directory. Any edit in those files should be automatically picked up by Keycloak, 
+just refresh the page. 
 
 #### Notes
 

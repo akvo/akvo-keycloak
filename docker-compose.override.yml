@@ -7,6 +7,8 @@ services:
 
   keycloak1:
     build: .
+    volumes:
+      - ./theme/akvo:/opt/jboss/keycloak/themes/akvo
     ports:
     - 8080:8080
 

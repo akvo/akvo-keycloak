@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: keycloak-ha-mysql
-        image: akvo/keycloak-ha-mysql:52ef8389
+        image: akvo/keycloak-ha-mysql:1.12.77ca93df
         imagePullPolicy: Always
         resources:
           requests:

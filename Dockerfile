@@ -2,13 +2,15 @@ FROM jboss/keycloak:3.1.0.Final
 
 ENV PROXY_ADDRESS_FORWARDING=true \
     JB_HOME=/opt/jboss \
-    KC_HOME=/opt/jboss/keycloak
+    KC_HOME=/opt/jboss/keycloak \
+    EVENTS_DIRECTORY=/opt/jboss/events
 
 COPY docker-entrypoint.sh ${JB_HOME}
 COPY theme/akvo/ ${KC_HOME}/themes/akvo/
 COPY keycloak_configuration.txt ${KC_HOME}
 
-RUN ${KC_HOME}/bin/jboss-cli.sh --file=${KC_HOME}/keycloak_configuration.txt && \
+RUN mkdir -p ${EVENTS_DIRECTORY} && \
+    ${KC_HOME}/bin/jboss-cli.sh --file=${KC_HOME}/keycloak_configuration.txt && \
     rm -rf ${KC_HOME}/standalone/configuration/standalone_xml_history/current/* && \
     mkdir -p ${KC_HOME}/modules/system/layers/base/com/mysql/jdbc/main; \
     cd ${KC_HOME}/modules/system/layers/base/com/mysql/jdbc/main && \

@@ -12,6 +12,10 @@ services:
     ports:
     - 8080:8080
 
+  metrics:
+    ports:
+    - 8888:8888
+
   tests:
     ports:
        # REPL

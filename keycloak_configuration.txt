@@ -49,3 +49,6 @@ embed-server --server-config=standalone-ha.xml --std-out=echo
 /socket-binding-group=standard-sockets/socket-binding=jgroups-mping: remove()
 /socket-binding-group=standard-sockets/socket-binding=jgroups-udp-fd: remove()
 /socket-binding-group=standard-sockets/socket-binding=jgroups-udp: remove()
+
+/subsystem=keycloak-server/spi=eventsListener:add()
+/subsystem=keycloak-server/spi=eventsListener/provider="com.larscheidschmitzhermes:keycloak-monitoring-prometheus":add(enabled=true,properties={"eventsDirectory" => "${env.EVENTS_DIRECTORY:/metrics}"})

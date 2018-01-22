@@ -54,6 +54,9 @@ spec:
             secretKeyRef:
               name: keycloak
               key: mysql_password
+        volumeMounts:
+          - name: metrics
+            mountPath: "/opt/jboss/events"
       - name: cloudsql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.09
         env:
@@ -71,9 +74,19 @@ spec:
             readOnly: true
           - name: cloudsql
             mountPath: /cloudsql
+      - name: keycloak-metrics
+        image: larscheidschmitzhermes/prometheus-filesystem-exporter:0.3.1
+        command: ["--metrics-directory", "/opt/jboss/events",
+                  "--metrics-path", "/metrics",
+                  "--metrics-addr", "8888"]
+        volumeMounts:
+          - name: metrics
+            mountPath: "/opt/jboss/events"
       volumes:
         - name: cloudsql-instance-credentials
           secret:
             secretName: cloudsql-instance-credentials
         - name: cloudsql
           emptyDir:
+        - name: metrics
+          emptyDir: {}

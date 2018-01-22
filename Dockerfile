@@ -14,10 +14,10 @@ RUN mkdir -p ${EVENTS_DIRECTORY} && \
     rm -rf ${KC_HOME}/standalone/configuration/standalone_xml_history/current/* && \
     mkdir -p ${KC_HOME}/modules/system/layers/base/com/mysql/jdbc/main; \
     cd ${KC_HOME}/modules/system/layers/base/com/mysql/jdbc/main && \
-    curl -O http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.18/mysql-connector-java-5.1.18.jar && \
-    curl -o ${KC_HOME}/providers/keycloak-monitoring-prometheus-1.1.0.jar \
-    https://jitpack.io/com/github/larscheid-schmitzhermes/keycloak-monitoring-prometheus/1.1.0/keycloak-monitoring-prometheus-1.1.0.jar
+    curl -O http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.18/mysql-connector-java-5.1.18.jar
 
 COPY module.xml ${KC_HOME}/modules/system/layers/base/com/mysql/jdbc/main/
+
+COPY providers/* ${KC_HOME}/providers/
 
 CMD ["-b", "0.0.0.0", "--server-config", "standalone-ha.xml"]

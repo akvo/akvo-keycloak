@@ -23,8 +23,16 @@ services:
       WAIT_FOR_DB: "true"
     volumes:
        - ./test/keycloak:/keycloak-init
+       - ./events:/opt/jboss/events
     expose:
     - 8080
+
+  metrics:
+    image: akvo/prometheus-filesystem-exporter:0.3.1
+    volumes:
+      - ./events:/opt/jboss/events
+    expose:
+      - 8888
 
   tests:
     build:

@@ -75,10 +75,7 @@ spec:
           - name: cloudsql
             mountPath: /cloudsql
       - name: keycloak-metrics
-        image: larscheidschmitzhermes/prometheus-filesystem-exporter:0.3.1
-        command: ["--metrics-directory", "/opt/jboss/events",
-                  "--metrics-path", "/metrics",
-                  "--metrics-addr", "8888"]
+        image: akvo/prometheus-filesystem-exporter:0.3.1
         volumeMounts:
           - name: metrics
             mountPath: "/opt/jboss/events"

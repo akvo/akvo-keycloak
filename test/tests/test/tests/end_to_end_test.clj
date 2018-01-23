@@ -75,9 +75,9 @@
 
 (deftest starts-in-a-reasonble-amount-of-time
   (dotimes [_ 4]
-    (keycloak-works)
     (kill)
-    (start)))
+    (start)
+    (keycloak-works)))
 
 (deftest check-metrics
   (let [check (http/proxy-request http-client {:method :get

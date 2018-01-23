@@ -68,7 +68,7 @@
                                 :user     "akvo-flow"
                                 :password "3918fbb4-3bc3-445a-8445-76826603b227"}))))
 
-(use-fixtures :once (fn [f]
+(use-fixtures :each (fn [f]
                       ;; first time around the DB initialization can take a lot of time
                       (keycloak-works 300)
                       (f)))
@@ -78,3 +78,8 @@
     (keycloak-works)
     (kill)
     (start)))
+
+(deftest check-metrics
+  (let [check (http/proxy-request http-client {:method :get
+                                               :url "http://keycloak1:8080/auth/realms/akvo/metrics"})]
+    (is (= 200 (-> check :status :code)))))

@@ -17,7 +17,7 @@ specific changes
 ## Usage
 
     docker-compose up
-    
+
 This will create an environment with:
 
 * MySQL instance, listening on port 3306
@@ -37,8 +37,8 @@ Run the test from the REPL or with:
 
 #### Themes
 
-There is a custom theme in the theme directory. Any edit in those files should be automatically picked up by Keycloak, 
-just refresh the page. 
+There is a custom theme in the theme directory. Any edit in those files should be automatically picked up by Keycloak,
+just refresh the page.
 
 #### Notes
 
@@ -71,11 +71,29 @@ If you want to update the initial Keycloak configuration, you need to run:
     docker-compose run -d --name keycloak-export keycloak1 --server-config standalone-ha.xml -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/tmp/initial-import.json -Dkeycloak.migration.usersExportStrategy=REALM_FILE
 
 It takes around a minute before the export is done. Look at the logs:
-    
+
     docker logs keycloak-export | grep "Export finished successfully"
-    
-After that:    
-    
+
+After that:
+
     docker cp keycloak-export:/tmp/initial-import.json test/keycloak/initial-import.json
     docker stop keycloak-export
     docker rm keycloak-export
+
+## Building Prometheus event exporter
+
+__Note:__ This can be deprecated once the aerogear team stars publishing the jars into a Maven repository
+
+Pick a revision:
+
+    export SHA=dcd9f2aa
+
+
+Build the jar file:
+
+    docker build --build-arg KC_METRICS_SHA="$SHA" -t akvo/kc-metrics -f metrics/Dockerfile metrics/
+
+
+Copy the jar to `/providers` folder
+
+    docker run --rm --volume "$PWD/providers:/providers" akvo/kc-metrics cp "/tmp/keycloak-metrics-spi/build/libs/keycloak-metrics-spi-1.0-$SHA.jar" /providers

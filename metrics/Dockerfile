@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk as metrics
 
-ARG KC_METRICS_SHA=dcd9f2aa
+ARG KC_METRICS_SHA
 
 RUN set -ex; cd /tmp && \
     git clone --branch=master https://github.com/aerogear/keycloak-metrics-spi.git && \

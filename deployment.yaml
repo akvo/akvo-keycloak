@@ -8,14 +8,14 @@ spec:
     metadata:
       labels:
         run: keycloak
-    annotations:
-      prometheus.io/scrape: true
-      prometheus.io/port: 8080
-      prometheus.io/path: /auth/realms/akvo/metrics
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8080'
+        prometheus.io/path: '/auth/realms/akvo/metrics'
     spec:
       containers:
       - name: keycloak-ha-mysql
-        image: akvo/keycloak-ha-mysql:1.12.77ca93df
+        image: akvo/keycloak-ha-mysql:1.27.99cbe081
         imagePullPolicy: Always
         resources:
           requests:

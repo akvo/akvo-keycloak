@@ -8,6 +8,10 @@ spec:
     metadata:
       labels:
         run: keycloak
+    annotations:
+      prometheus.io/scrape: true
+      prometheus.io/port: 8080
+      prometheus.io/path: /auth/realms/akvo/metrics
     spec:
       containers:
       - name: keycloak-ha-mysql

@@ -97,3 +97,12 @@ Build the jar file:
 Copy the jar to `/providers` folder
 
     docker run --rm --volume "$PWD/providers:/providers" akvo/kc-metrics cp "/tmp/keycloak-metrics-spi/build/libs/keycloak-metrics-spi-1.0-$SHA.jar" /providers
+
+Delete any previous jar from `providers` folder:
+
+    git rm providers/keycloak-metrics-spi-1.0-<old-sha>.jar
+
+Add and commit the new jar
+
+    git add "providers/keycloak-metrics-spi-1.0-$SHA.jar"
+    git commit

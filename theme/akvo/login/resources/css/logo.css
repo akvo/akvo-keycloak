@@ -19,14 +19,45 @@ div#kc-header::after {
     text-align: center;
 }
 
-#kc-container {}
+@media (max-width: 1068px) {
+    div#kc-header::after {
+        display: none;
+    }
+    #kc-logo-wrapper {
+        width: initial;
+    }
+}
+
+#kc-content {
+    padding: 10px 40px;
+}
 
 #kc-logo-wrapper {
-    background: url("../img/Akvo_RGB_logo.png") no-repeat top right;
+    background: url("../img/Akvo_RGB_logo.png") no-repeat top center;
     height: 41px;
-    width: 175px;
+    width: 100%;
     left: 50%;
     transform: translateX(-50%);
+}
+
+@media (max-width: 1068px) {
+    #kc-logo-wrapper {
+        background: url("../img/Akvo_RGB_logo.png") no-repeat top center;
+        height: 41px;
+        width: 100%;
+        transform: translateX(-50%);
+        left: 50%;
+    }
+}
+
+@media (max-width: 767px) {
+    #kc-logo-wrapper {
+        background: url("../img/Akvo_RGB_logo.png") no-repeat top center;
+        height: 41px;
+        width: 100%;
+        transform: none;
+        left: 50%;
+    }
 }
 
 #kc-container-wrapper {
@@ -40,17 +71,32 @@ div#kc-header::after {
     padding: 20px 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(32, 32, 36, 0.2);
+    height: calc(100vh - 690px);
+}
+
+@media (max-width: 1068px) {
+    #kc-container-wrapper {
+        width: 70%;
+        height: calc(100vh - 690px);
+    }
 }
 
 #kc-form {
     position: relative;
     width: 100% !important;
     margin-top: 50px;
-}
-
-div#kc-form {
     display: block;
     padding: 0  !important;
+}
+
+@media (max-width: 767px) {
+    #kc-form {
+        position: relative;
+        width: 100% !important;
+        margin-top: 0px;
+        display: block;
+        padding: 0  !important;
+    }
 }
 
 div#kc-form label {
@@ -69,6 +115,7 @@ div#kc-form label {
 #kc-form-options {
     display: block;
     width: 100% !important;
+    margin: 0;
 }
 
 #kc-form-buttons {
@@ -96,6 +143,12 @@ input[type=submit] {
     max-width: 30%;
 }
 
+@media (max-width: 1068px) {
+    input[type=submit] {
+        max-width: 50%;
+    }
+}
+
 .form-group div {
     width: 100% !important;
 }
@@ -120,8 +173,24 @@ input[type=text], input[type=password] {
     color: rgb(32, 32, 36);
     left: 50%;
     transform: translate(-50%, -50%);
-    bottom: 5px;
+    bottom: -10px;
     background: transparent;
+}
+
+@media (max-width: 767px) {
+    #kc-locale {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        z-index: 9999;
+        color: rgb(32, 32, 36);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        bottom: -15px;
+        background: transparent;
+        height: 40px;
+        top: initial;
+    }
 }
 
 #kc-locale ul {
@@ -153,4 +222,30 @@ input[type=text], input[type=password] {
     background: transparent;
 }
 
-.form-control {}
+#kc-info {
+    display: block;
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+@media (max-width: 767px) {
+    #kc-info-wrapper {
+        border: none;
+        margin-top: 15px;
+        padding-top: 15px;
+        padding-left: 0px;
+        padding-right: 0;
+    }
+}
+
+#kc-social-providers {
+    margin-top: 20px;
+}
+
+@media (max-width: 1068px) {
+    #kc-social-providers {
+        margin-top: 0px;
+    }
+}

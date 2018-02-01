@@ -158,11 +158,13 @@ input[type=text], input[type=password] {
     padding: 25px 25px;
     font-size: 1.2em;
     margin-bottom: 20px;
-    background: none;
     border-width: 0 0 1px 0;
+    background-color: rgba(250, 255, 189, 1) !important;
 }
 
-#kc-content-wrapper {}
+#kc-content-wrapper {
+    overflow: hidden;
+}
 
 #kc-locale {
     position: absolute;
@@ -229,6 +231,10 @@ input[type=text], input[type=password] {
     border: none;
 }
 
+#kc-info-wrapper {
+    color: rgba(32, 32, 36, 0.7);
+}
+
 @media (max-width: 767px) {
     #kc-info-wrapper {
         border: none;
@@ -255,6 +261,7 @@ input[type=text], input[type=password] {
     color: #cc0000;
 }
 
+#kc-error-message,
 #kc-feedback-text {
     color: #cc0000;
 }

@@ -30,7 +30,7 @@ spec:
           httpGet:
             path: /auth/realms/master/.well-known/openid-configuration
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 70
           periodSeconds: 1
           timeoutSeconds: 1
           successThreshold: 1

@@ -17,6 +17,8 @@ div#kc-header::after {
     color: rgb(32, 32, 36);
     font-size: 1.5em;
     text-align: center;
+    width: 100%;
+    display: none;
 }
 
 @media (max-width: 1068px) {
@@ -68,23 +70,21 @@ div#kc-header::after {
     transform: translate(-50%, -50%);
     text-align: center;
     background: rgba(0, 0, 0, 0.05);
-    padding: 20px 10px;
+    padding: 40px 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(32, 32, 36, 0.2);
-    height: calc(100vh - 690px);
+    bottom: inherit;
 }
 
 @media (max-width: 1068px) {
     #kc-container-wrapper {
         width: 70%;
-        height: calc(100vh - 690px);
     }
 }
 
 #kc-form {
     position: relative;
     width: 100% !important;
-    margin-top: 50px;
     display: block;
     padding: 0  !important;
 }
@@ -93,7 +93,6 @@ div#kc-header::after {
     #kc-form {
         position: relative;
         width: 100% !important;
-        margin-top: 0px;
         display: block;
         padding: 0  !important;
     }

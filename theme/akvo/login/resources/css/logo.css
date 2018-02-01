@@ -248,3 +248,13 @@ input[type=text], input[type=password] {
         margin-top: 0px;
     }
 }
+
+.login-pf .container [class^='alert'] {
+    background: transparent;
+    /* color: #fff; */
+    color: #cc0000;
+}
+
+#kc-feedback-text {
+    color: #cc0000;
+}

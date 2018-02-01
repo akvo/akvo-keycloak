@@ -152,14 +152,43 @@ input[type=submit] {
     width: 100% !important;
 }
 
+.login-pf .container {
+    color: rgb(32, 32, 36) !important;
+}
+
 /*fields*/
 input[type=text], input[type=password] {
-    color: #ddd;
-    padding: 25px 25px;
+    color: rgb(32, 32, 36) !important;
     font-size: 1.2em;
+    height: 50px;
+    padding-left: 10px;
     margin-bottom: 20px;
     border-width: 0 0 1px 0;
     background-color: rgba(250, 255, 189, 1) !important;
+}
+
+.form-control::-moz-placeholder {
+    color: rgb(32, 32, 36) !important;
+}
+
+input::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: rgb(32, 32, 36) !important;
+}
+
+input::-moz-placeholder {
+    /* Firefox 19+ */
+    color: rgb(32, 32, 36) !important;
+}
+
+input:-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgb(32, 32, 36) !important;
+}
+
+input:-moz-placeholder {
+    /* Firefox 18- */
+    color: rgb(32, 32, 36) !important;
 }
 
 #kc-content-wrapper {

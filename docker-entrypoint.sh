@@ -25,9 +25,8 @@ if [ -f ${INIT_FILE} ]; then
   IMPORT_FILE="-Dkeycloak.migration.action=import -Dkeycloak.migration.file=${INIT_FILE} -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.provider=singleFile"
 fi
 
-DEV_FILE="/keycloak-init/keycloak_DEV_configuration.txt"
-if [ -f ${DEV_FILE} ]; then
-  ${KC_HOME}/bin/jboss-cli.sh --file=/keycloak-init/keycloak_DEV_configuration.txt
+if [ "${DISABLE_THEME_CACHE}" = "true" ]; then
+  ${KC_HOME}/bin/jboss-cli.sh --file=/keycloak-init/keycloak_disable_theme_cache.txt
   rm -rf ${KC_HOME}/standalone/configuration/standalone_xml_history/current/*
 fi
 

@@ -7,6 +7,8 @@ services:
 
   keycloak1:
     build: .
+    environment:
+       DISABLE_THEME_CACHE: "true"
     volumes:
       - ./theme/akvo:/opt/jboss/keycloak/themes/akvo
     ports:

@@ -28,8 +28,7 @@ embed-server --server-config=standalone-ha.xml --std-out=echo
 /subsystem=jgroups/stack=tcp/protocol=pbcast.NAKACK2:add()
 /subsystem=jgroups/stack=tcp/protocol=UNICAST3:add()
 /subsystem=jgroups/stack=tcp/protocol=pbcast.STABLE:add()
-/subsystem=jgroups/stack=tcp/protocol=pbcast.GMS:add()
-/subsystem=jgroups/stack=tcp/protocol=pbcast.GMS/property=max_join_attempts:add(value=5)
+/subsystem=jgroups/stack=tcp/protocol=pbcast.GMS:add(properties={max_join_attempts=5})
 /subsystem=jgroups/stack=tcp/protocol=MFC:add()
 /subsystem=jgroups/stack=tcp/protocol=FRAG2:add()
 

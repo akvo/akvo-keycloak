@@ -16,8 +16,7 @@ embed-server --server-config=standalone-ha.xml --std-out=echo
 
 /subsystem=deployment-scanner/scanner=default:undefine-attribute(name=scan-enabled)
 
-/subsystem=jgroups/channel=ee: write-attribute(name=stack,value=${env.JGROUPS_STACK:tcp})
-/subsystem=jgroups/stack=udp:remove()
+/subsystem=jgroups/channel=ee: write-attribute(name=stack,value=udp)
 /subsystem=jgroups/stack=tcp:remove()
 /subsystem=jgroups/stack=tcp:add()
 /subsystem=jgroups/stack=tcp/transport=TCP:add(socket-binding="jgroups-tcp")
@@ -37,15 +36,14 @@ embed-server --server-config=standalone-ha.xml --std-out=echo
 /subsystem=jgroups/stack=tcp/protocol=MFC:add()
 /subsystem=jgroups/stack=tcp/protocol=FRAG2:add()
 
+/subsystem=jgroups/channel=ee: write-attribute(name=stack,value=tcp)
+/subsystem=jgroups/stack=udp:remove()
+
 /subsystem=keycloak-server/theme=defaults/:write-attribute(name=default,value=akvo)
 
+/socket-binding-group=standard-sockets/socket-binding=proxy-https: add(port=443)
 /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=redirect-socket,value=proxy-https)
 /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding,value=true)
 
 /interface=private: write-attribute(name=nic, value=eth0)
 /interface=private:undefine-attribute(name=inet-address)
-
-/socket-binding-group=standard-sockets/socket-binding=proxy-https: add(port=443)
-/socket-binding-group=standard-sockets/socket-binding=jgroups-mping: remove()
-/socket-binding-group=standard-sockets/socket-binding=jgroups-udp-fd: remove()
-/socket-binding-group=standard-sockets/socket-binding=jgroups-udp: remove()

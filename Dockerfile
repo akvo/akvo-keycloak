@@ -1,4 +1,4 @@
-FROM jboss/keycloak:3.1.0.Final
+FROM jboss/keycloak:3.4.3.Final
 
 ENV PROXY_ADDRESS_FORWARDING=true \
     JB_HOME=/opt/jboss \

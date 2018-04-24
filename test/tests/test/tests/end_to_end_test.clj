@@ -5,16 +5,17 @@
     [util.http-client :as http]
     [clojure.tools.logging :refer [info debug]]
     [clojure.test :refer :all]
-    [clojure.java.data :as java])
+    [clojure.java.data :as java]
+    [clojure.string :as str])
   (:import
     (com.github.dockerjava.api DockerClient)
-    (com.github.dockerjava.core DockerClientBuilder)
-    (com.github.dockerjava.api.exception NotModifiedException)))
+    (com.github.dockerjava.core DockerClientBuilder)))
 
 (defonce ^DockerClient docker-client (.build (DockerClientBuilder/getInstance)))
 
 (defonce http-client (http/create-client {:connection-timeout 10000
                                           :request-timeout    30000
+                                          :follow-redirects   true
                                           :max-connections    10}))
 
 (defn containers []
@@ -80,6 +81,14 @@
     (keycloak-works)))
 
 (deftest check-metrics
-  (let [check (http/proxy-request http-client {:method :get
-                                               :url "http://keycloak1:8080/auth/realms/akvo/metrics"})]
+  (let [check (http/make-request http-client {:method :get
+                                               :url   "http://keycloak1:8080/auth/realms/akvo/metrics"})]
     (is (= 200 (-> check :status :code)))))
+
+(deftest akvo-theme
+  (is (->
+        (http/make-request http-client {:method :get
+                                        :url    "http://keycloak1:8080/auth/realms/akvo/account"})
+        :body
+        (str/includes? "akvo/css/logo.css"))))
+

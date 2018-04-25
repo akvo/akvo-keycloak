@@ -43,8 +43,6 @@ spec:
           timeoutSeconds: 1
           periodSeconds: 10
         env:
-        - name: JGROUPS_STACK
-          value: tcp
         - name: MYSQL_PORT_3306_TCP_ADDR
           value: "127.0.0.1"
         - name: MYSQL_PORT_3306_TCP_PORT

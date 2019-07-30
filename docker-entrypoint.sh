@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ${WAIT_FOR_DB} = "true" ]; then
+if [[ ${WAIT_FOR_DB} = "true" ]]; then
     MAX=30
     TRIES=0
     DB="http://${MYSQL_PORT_3306_TCP_ADDR}:${MYSQL_PORT_3306_TCP_PORT}"

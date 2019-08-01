@@ -43,6 +43,8 @@ spec:
           timeoutSeconds: 1
           periodSeconds: 10
         env:
+        - name: JAVA_OPTS
+          value: "-Xms64m -Xmx800m -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true"
         - name: MYSQL_PORT_3306_TCP_ADDR
           value: "127.0.0.1"
         - name: MYSQL_PORT_3306_TCP_PORT

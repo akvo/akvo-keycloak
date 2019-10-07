@@ -22,7 +22,7 @@
   (-> docker-client
       .listContainersCmd
       (.withShowAll true)
-      (.withLabelFilter {"com.docker.compose.project" "akvokeycloak"})
+      (.withLabelFilter {"com.docker.compose.project" "akvo-keycloak"})
       .exec
       java/from-java))
 

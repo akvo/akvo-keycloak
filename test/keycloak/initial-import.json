@@ -244,7 +244,7 @@
     "emailVerified" : true,
     "firstName" : "Jerome",
     "lastName" : "Burns",
-    "email" : "jerome@t1.akvolumen.org",
+    "email" : "jerome@localhost",
     "credentials" : [ {
       "type" : "password",
       "hashedSaltedValue" : "lL6BdQzynHtoI69hEeybQyfavotX/gnblxLLGsG/x2xX3NjSCWag7b09OPn4gtmhpybZgmds2VkPCWUNaMezSQ==",
